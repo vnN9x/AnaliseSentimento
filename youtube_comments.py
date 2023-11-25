@@ -18,18 +18,18 @@ class Video:
     def __str__(self) -> str:
         return f'Titulo: {self.titulo}\nid: {self.id}\n comentarios:\n{self.comentarios}'
     
-    def create_csv(self):
-        self.comentarios.to_csv(f'{self.titulo}.csv')
+    def create_csv(self, locale='relevance'):
+        self.comentarios.to_csv(f'./data/youtube/{locale}/{self.id}.csv')
 
-def search_videos(busca):
+def search_videos(query, maxResults, sort='relevance'):
     video_list = []
 
     search_response = youtube.search().list(
-    q=busca,
+    q=query,
     type='video',
     part='id,snippet',
-    order='relevance',
-    maxResults=20
+    order=sort,
+    maxResults=maxResults
     ).execute()
 
     for search_result in search_response.get('items', []):
@@ -47,10 +47,13 @@ def get_video_comments(video_list):
             req = youtube.commentThreads().list(
                 part="snippet",
                 videoId= video[key],
-                maxResults=100
+                maxResults=10
             )
 
-            res = req.execute()
+            try:
+                res = req.execute()
+            except Exception as e:
+                print(e)
 
             comments = []
 
@@ -72,8 +75,10 @@ def get_video_comments(video_list):
     return video_objects
 
 def main():
-    video_list = search_videos('aprender programação')
-    print(get_video_comments(video_list))
+    video_list = search_videos('unip', 10, 'date')
+    results = get_video_comments(video_list)
+    for result in results:
+        result.create_csv('recent')
 
 if __name__=='__main__':
     main()
