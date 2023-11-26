@@ -8,14 +8,14 @@ import time
 url = f'https://querobolsa.com.br/unip/avaliacao-dos-alunos'
 
 options = webdriver.ChromeOptions()
-#options.add_argument("--headless=new")
+options.add_argument("--headless=new")
 
 driver = webdriver.Chrome(options=options) 
 driver.get(url)
 
 full_data = []
 
-for z in range(9):
+for z in range(20):
     author = driver.find_elements(By.XPATH, '//strong[@class="z-title student-evaluation__profile-name z-title--size-extra-small"]')
     rev = driver.find_elements(By.XPATH, '//p[@class="z-text student-evaluation__text z-text--size-medium z-text--left"]')
 

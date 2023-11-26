@@ -75,10 +75,15 @@ def get_video_comments(video_list):
     return video_objects
 
 def main():
-    video_list = search_videos('unip', 10, 'date')
+    video_list = search_videos('unip', 40, 'date')
     results = get_video_comments(video_list)
     for result in results:
         result.create_csv('recent')
+
+    """ video_list = search_videos('unip', 40)
+    results = get_video_comments(video_list)
+    for result in results:
+        result.create_csv() """
 
 if __name__=='__main__':
     main()
