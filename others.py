@@ -31,16 +31,18 @@ for z in range(401):
 
         if filtered_rating[i] >= 4:
             rating_value = 'Positivo'
-        elif filtered_rating[i] < 3:
-            rating_value = 'Negativo'
         else:
             rating_value = 'Neutro'
 
-        full_data.append([author[i].text, reviews[i][0].text + ' ' + reviews[i][1].text, rating_value])
+        full_data.append([author[i].text, reviews[i][0].text, rating_value])
+        full_data.append([author[i].text, reviews[i][1].text, 'Negativo'])
         #print(f'\nNome: {author[i].text}\npros: {reviews[i][0].text}\n\ncons: {reviews[i][1].text}\n===== <> ===== <> ===== <>')
 
     next_button = driver.find_elements(By.XPATH, '//button[@class="paginator__button paginator__arrow-button"]')
-    next_button[1].click()
+    try:
+        next_button[1].click()
+    except:
+        pass
     time.sleep(3)
 
 driver.quit()
