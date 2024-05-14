@@ -1,4 +1,6 @@
 __pycache__/
 keys.py
-venv/
+venv/*
+venv.*
+.\venv
 .ipynb_checkpoints
